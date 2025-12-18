@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hacker Info Page</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      color: limegreen;
+      font-family: monospace;
+      overflow: hidden;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 20px;
+      animation: flicker 1s infinite alternate;
+    }
+    @keyframes flicker {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
+    }
+    #console {
+      position: relative;
+      z-index: 1;
+      margin: 20px;
+    }
+    input {
+      background: black;
+      border: 1px solid limegreen;
+      color: limegreen;
+      padding: 5px;
+      width: 250px;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Accessing System...</h1>
+  <div id="console">
+    <p id="battery">Battery: loading...</p>
+    <p id="time">Time: loading...</p>
+    <p id="location">Location: loading...</p>
+    <input type="text" id="phone" placeholder="Enter phone number" />
+  </div>
+
+  <canvas id="matrix"></canvas>
+
+  <script>
+    // Battery
+    if (navigator.getBattery) {
+      navigator.getBattery().then(b => {
+        document.getElementById("battery").textContent =
+          "Battery: " + Math.round(b.level * 100) + "%";
+      });
+    } else {
+      document.getElementById("battery").textContent = "Battery info not supported.";
+    }
+
+    // Time
+    setInterval(() => {
+      let now = new Date();
+      document.getElementById("time").textContent =
+        "Time: " + now.toLocaleTimeString();
+    }, 1000);
+
+    // Location (with consent)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(pos => {
+        document.getElementById("location").textContent =
+          "Location: " + pos.coords.latitude.toFixed(4) + ", " + pos.coords.longitude.toFixed(4);
+      }, () => {
+        document.getElementById("location").textContent = "Location access denied.";
+      });
+    } else {
+      document.getElementById("location").textContent = "Location not supported.";
+    }
+
+    // Phone number playful effect
+    document.getElementById("phone").addEventListener("change", function() {
+      alert("Simulating hack... Call " + this.value + " now!");
+    });
+
+    // Matrix rain background
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function draw() {
+      ctx.fillStyle = "rgba(0,0,0,0.05)";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
+
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+
+      for(let i=0; i<drops.length; i++) {
+        const text = letters[Math.floor(Math.random()*letters.length)];
+        ctx.fillText(text, i*fontSize, drops[i]*fontSize);
+
+        if(drops[i]*fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+    setInterval(draw, 33);
+  </script>
+</body>
+</html>
