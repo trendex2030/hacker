@@ -1,0 +1,44 @@
+/* General page styling */
+body {
+  margin: 0;
+  background: black;
+  color: limegreen;
+  font-family: monospace;
+  overflow: hidden;
+}
+
+/* Title flicker effect */
+h1 {
+  text-align: center;
+  margin-top: 20px;
+  animation: flicker 1s infinite alternate;
+}
+
+@keyframes flicker {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+/* Console area */
+#console {
+  position: relative;
+  z-index: 1;
+  margin: 20px;
+}
+
+/* Input field styling */
+input {
+  background: black;
+  border: 1px solid limegreen;
+  color: limegreen;
+  padding: 5px;
+  width: 250px;
+}
+
+/* Matrix rain canvas background */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
