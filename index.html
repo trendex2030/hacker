@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Hacker Info Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Info Console</title>
   <style>
     body {
       margin: 0;
@@ -13,7 +14,8 @@
     }
     h1 {
       text-align: center;
-      margin-top: 20px;
+      margin: 20px 0;
+      font-size: 1.8em;
       animation: flicker 1s infinite alternate;
     }
     @keyframes flicker {
@@ -24,13 +26,35 @@
       position: relative;
       z-index: 1;
       margin: 20px;
+      padding: 15px;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid limegreen;
+      border-radius: 8px;
+    }
+    .info {
+      margin: 10px 0;
+      padding: 10px;
+      border-bottom: 1px solid limegreen;
+      font-size: 1.1em;
+    }
+    .highlight {
+      background: rgba(0, 50, 0, 0.8);
+      border: 2px solid limegreen;
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 15px;
+      font-size: 1.2em;
+      text-align: center;
     }
     input {
       background: black;
       border: 1px solid limegreen;
       color: limegreen;
-      padding: 5px;
-      width: 250px;
+      padding: 10px;
+      width: 100%;
+      font-size: 1em;
+      border-radius: 4px;
+      margin-top: 10px;
     }
     canvas {
       position: fixed;
@@ -41,11 +65,16 @@
   </style>
 </head>
 <body>
-  <h1>Accessing System...</h1>
+  <h1>System Access Console</h1>
   <div id="console">
-    <p id="battery">Battery: loading...</p>
-    <p id="time">Time: loading...</p>
-    <p id="location">Location: loading...</p>
+    <div class="info" id="battery">Battery: loading...</div>
+    <div class="info" id="time">Time: loading...</div>
+    <div class="info" id="location">Location: loading...</div>
+    
+    <div class="highlight" id="mail">
+      📧 Mail: user@example.com
+    </div>
+
     <input type="text" id="phone" placeholder="Enter phone number" />
   </div>
 
@@ -116,6 +145,12 @@
       }
     }
     setInterval(draw, 33);
+
+    // Resize canvas on orientation change
+    window.addEventListener("resize", () => {
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+    });
   </script>
 </body>
 </html>
