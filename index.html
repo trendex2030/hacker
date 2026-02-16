@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>HACK SMART • mobile</title>
+    <title>HACK SMART • extended</title>
     <style>
         * {
             box-sizing: border-box;
@@ -20,11 +20,9 @@
             font-family: 'Courier New', monospace;
             margin: 0;
             padding: 20px;
-            /* Shiny animated gradient background */
             background: linear-gradient(125deg, #0a0f0a, #1a2a1a, #0f1f0f, #030603, #102010);
             background-size: 400% 400%;
             animation: shimmer 16s ease infinite;
-            transition: background 0.3s ease; /* for JS randomisation */
             color: #00ff00;
             text-shadow: 0 0 5px #00ff00;
         }
@@ -39,7 +37,6 @@
             font-size: clamp(1.8rem, 8vw, 3rem);
             margin-bottom: 10px;
             text-align: center;
-            word-break: break-word;
             filter: drop-shadow(0 0 8px currentColor);
         }
 
@@ -125,6 +122,38 @@
             box-shadow: 0 0 20px rgba(0,255,0,0.3);
         }
 
+        /* New log container */
+        #logContainer {
+            width: 90%;
+            max-width: 600px;
+            height: 200px;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #0f0;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 20px auto;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            text-align: left;
+            box-shadow: 0 0 15px currentColor;
+            scroll-behavior: smooth;
+        }
+
+        .log-entry {
+            color: #0f0;
+            border-bottom: 1px dotted #0f0;
+            padding: 4px 0;
+            font-family: monospace;
+            white-space: nowrap;
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
         .reset-btn {
             background: #333;
             color: #0f0;
@@ -137,7 +166,6 @@
             background: #444;
         }
 
-        /* extra shiny for the hacker glitch */
         .glitch {
             animation: glitch 1s infinite;
         }
@@ -147,21 +175,70 @@
             4% { transform: skew(-2deg, 1deg); }
             10% { transform: none; opacity: 1; text-shadow: 0 0 5px #0f0; }
         }
+
+        #infoPanel {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #0f0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            width: 90%;
+            max-width: 500px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 20px rgba(0,255,0,0.3);
+            font-size: 0.9rem;
+            text-align: left;
+            line-height: 1.6;
+        }
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #0f0;
+            padding: 5px 0;
+        }
+        .info-label {
+            opacity: 0.8;
+            font-weight: bold;
+        }
+        .info-value {
+            font-family: monospace;
+            word-break: break-word;
+            max-width: 60%;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
 
     <h1 id="mainTitle">⚠ HACK SMART ⚠</h1>
-    <p>Hacking-ready • Trendex  • King </p>
+    <p>Hacking-ready • Trendex • King • 5min deep scan</p>
+
+    <div id="infoPanel">
+        <div class="info-item">
+            <span class="info-label">🌐 IP address:</span>
+            <span class="info-value" id="ipDisplay">Fetching...</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">⏱️ Local time:</span>
+            <span class="info-value" id="timeDisplay">--:--:--</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">📍 Location:</span>
+            <span class="info-value" id="locationDisplay">Requesting...</span>
+        </div>
+    </div>
 
     <input type="text" id="phone" placeholder="Enter phone number" inputmode="numeric">
 
-    <button onclick="startSimulation()" id="startBtn">▶ HACK NOW</button>
+    <button onclick="startSimulation()" id="startBtn">▶ HACK NOW (5 MIN)</button>
     <button onclick="resetSimulation()" class="reset-btn" id="resetBtn">⟲ Reset</button>
 
     <div id="progressContainer">
         <div id="progressBar"></div>
     </div>
+
+    <!-- New scrolling log area -->
+    <div id="logContainer"></div>
 
     <div id="status"></div>
 
@@ -176,85 +253,154 @@
     const resetBtn = document.getElementById('resetBtn');
     const title = document.getElementById('mainTitle');
     const body = document.body;
+    const logContainer = document.getElementById('logContainer');
 
-    let intervalId = null;
+    // Info elements
+    const ipDisplay = document.getElementById('ipDisplay');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const locationDisplay = document.getElementById('locationDisplay');
 
-    // ---------- fancy random styles (shiny + random) ----------
+    let progressInterval = null;
+    let logInterval = null;
+    let timeInterval = null;
+    let styleInterval = null;
+
+    // ---------- real IP, time, location (unchanged) ----------
+    function fetchUserIP() {
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => ipDisplay.textContent = data.ip)
+            .catch(() => {
+                ipDisplay.textContent = 'Unavailable';
+                ipDisplay.style.color = '#ff5555';
+            });
+    }
+
+    function updateClock() {
+        const now = new Date();
+        timeDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+
+    function requestLocation() {
+        if (!navigator.geolocation) {
+            locationDisplay.textContent = 'Not supported';
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const lat = position.coords.latitude.toFixed(5);
+                const lon = position.coords.longitude.toFixed(5);
+                const accuracy = position.coords.accuracy ? `±${Math.round(position.coords.accuracy)}m` : '';
+                locationDisplay.innerHTML = `${lat}, ${lon} <span style="font-size:0.8rem; opacity:0.7;">${accuracy}</span>`;
+            },
+            () => locationDisplay.textContent = 'Denied'
+        );
+    }
+
+    // ---------- random style generator (unchanged) ----------
     function randomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-
     function randomHex() {
         return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
     }
-
-    // Apply random neon-ish styles while keeping dark mode readable
     function applyRandomStyles() {
-        // generate a random bright color for accents
         const hue = randomInt(0, 360);
-        const accent = `hsl(${hue}, 100%, 50%)`;          // pure bright
+        const accent = `hsl(${hue}, 100%, 50%)`;
         const accentSoft = `hsl(${hue}, 80%, 60%)`;
-        const darkBg = `hsl(${hue}, 30%, 5%)`;           // very dark but tinted
-
-        // body background: keep shiny gradient but change colors? 
-        // We'll set a new background with random gradient stops
         const color1 = `hsl(${hue}, 40%, 8%)`;
         const color2 = `hsl(${hue + 30}, 50%, 3%)`;
         const color3 = `hsl(${hue - 30}, 60%, 10%)`;
-        body.style.background = `radial-gradient(circle at 30% 30%, ${color1}, ${color2}, ${color3})`;
-        // add a little animation still? we keep the animation but change colors dynamically.
-        // To keep the shimmer, we can also set a linear-gradient that moves.
-        // But for simplicity we keep the animation defined in CSS; JS overrides the base color.
-        // We'll re-apply a gradient with random hues.
         body.style.background = `linear-gradient(125deg, ${color1}, ${color2}, ${color3}, ${color1})`;
         body.style.backgroundSize = '400% 400%';
-        // (animation stays from CSS)
-
-        // set text color to a bright variation
         const textColor = `hsl(${hue}, 90%, 60%)`;
         body.style.color = textColor;
         body.style.textShadow = `0 0 8px ${textColor}`;
 
-        // update input border, button, progress bar etc.
         phoneInput.style.borderColor = accent;
         phoneInput.style.color = accent;
         phoneInput.style.boxShadow = `0 0 15px ${accent}`;
-
         startBtn.style.backgroundColor = accent;
-        startBtn.style.color = 'black';
         startBtn.style.boxShadow = `0 0 20px ${accent}`;
-
         resetBtn.style.borderColor = accent;
         resetBtn.style.color = accent;
         resetBtn.style.boxShadow = `0 0 15px ${accent}`;
-
         progressContainer.style.borderColor = accent;
         progressContainer.style.boxShadow = `0 0 20px ${accent}`;
-
         progressBar.style.backgroundColor = accent;
         progressBar.style.boxShadow = `0 0 25px ${accent}`;
-
         statusDiv.style.borderLeftColor = accent;
         statusDiv.style.boxShadow = `0 0 20px ${accentSoft}`;
         statusDiv.style.color = accentSoft;
-
-        title.style.textShadow = `0 0 12px ${accent}, 2px 2px 0px ${randomHex()}`; // extra glint
+        title.style.textShadow = `0 0 12px ${accent}, 2px 2px 0px ${randomHex()}`;
+        logContainer.style.borderColor = accent;
+        logContainer.style.boxShadow = `0 0 20px ${accentSoft}`;
     }
 
-    // Apply random styles immediately and then every 5 seconds
-    applyRandomStyles();
-    const styleInterval = setInterval(applyRandomStyles, 5000);
+    // ---------- log message generator ----------
+    const logParts = {
+        prefixes: [
+            "[*]", "[+]", "[-]", "[!]", "[>]", "[<]", "[~]", "[$]", "[#]", "[@]"
+        ],
+        actions: [
+            "Connecting to", "Scanning", "Brute-forcing", "Exploiting", "Uploading to",
+            "Downloading from", "Injecting into", "Probing", "Fuzzing", "Cracking",
+            "Decrypting", "Bypassing", "Spoofing", "Sniffing", "Hijacking"
+        ],
+        targets: [
+            "remote host", "mainframe", "firewall", "database", "server",
+            "router", "switch", "access point", "cloud instance", "IoT device",
+            "mobile tower", "satellite uplink", "secure enclave", "HSM", "VPN gateway"
+        },
+        details: [
+            "using AES-256", "with custom payload", "via TCP/443", "through proxy",
+            "exploit CVE-2024-1234", "Metasploit module", "SQL injection",
+            "buffer overflow", "zero-day", "backdoor", "rootkit", "keylogger"
+        ],
+        statuses: [
+            "success", "failed", "timeout", "retrying", "blocked", "allowed",
+            "detected by IDS", "evaded AV", "requires authentication"
+        ]
+    };
 
-    // ---------- simulation functions (unchanged but improved) ----------
-    const messages = [
-        "🔐 Initializing secure connection...",
-        "🛡️ Bypassing firewall...",
-        "🔑 Decrypting handshake...",
-        "💻 Accessing mainframe...",
-        "⚡ Cracking password hash...",
-        "💉 Injecting payload...",
-        "🧹 Covering tracks..."
-    ];
+    function randomItem(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateLogMessage() {
+        const prefix = randomItem(logParts.prefixes);
+        const action = randomItem(logParts.actions);
+        const target = randomItem(logParts.targets);
+        // 50% chance to include a detail or status
+        if (Math.random() > 0.5) {
+            const extra = randomItem(logParts.details);
+            return `${prefix} ${action} ${target} ${extra}...`;
+        } else {
+            const status = randomItem(logParts.statuses);
+            return `${prefix} ${action} ${target} ... ${status}`;
+        }
+    }
+
+    function addLog() {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        // Add timestamp
+        const now = new Date();
+        const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        entry.textContent = `[${timestamp}] ${generateLogMessage()}`;
+        logContainer.appendChild(entry);
+        // Keep last 150 lines to avoid performance issues
+        while (logContainer.children.length > 150) {
+            logContainer.removeChild(logContainer.firstChild);
+        }
+        // Auto-scroll to bottom
+        logContainer.scrollTop = logContainer.scrollHeight;
+    }
+
+    // ---------- simulation with 5-minute duration ----------
+    const TOTAL_TIME = 5 * 60 * 1000; // 5 minutes in ms
+    const PROGRESS_STEPS = 100;        // we'll go from 0 to 100
+    const STEP_TIME = TOTAL_TIME / PROGRESS_STEPS; // 3000 ms per 1% increment
 
     window.startSimulation = function() {
         let phone = phoneInput.value.trim();
@@ -263,57 +409,75 @@
             return;
         }
 
-        // Clear any previous simulation
-        if (intervalId) clearInterval(intervalId);
+        // Clear any ongoing simulation
+        if (progressInterval) clearInterval(progressInterval);
+        if (logInterval) clearInterval(logInterval);
 
+        // Reset UI
         progressContainer.style.display = "block";
-        statusDiv.innerHTML = messages[0];
         progressBar.style.width = "0%";
+        statusDiv.innerHTML = "🔐 Initializing deep hack (5 minutes)...";
+        logContainer.innerHTML = ''; // clear old logs
 
         let progress = 0;
-        let msgIndex = 0;
 
-        intervalId = setInterval(function() {
-            // Random progress speed
-            let increment = Math.floor(Math.random() * 6) + 2; // 2-7
-            progress = Math.min(progress + increment, 100);
+        // Progress interval – increments by 1% every 3 seconds
+        progressInterval = setInterval(function() {
+            progress++;
             progressBar.style.width = progress + "%";
-
-            // Update message at thresholds
-            if (progress > (msgIndex + 1) * 15 && msgIndex < messages.length - 1) {
-                msgIndex++;
-            }
-            statusDiv.innerHTML = messages[msgIndex] + " " + progress + "%";
+            statusDiv.innerHTML = `⏳ Hacking in progress... ${progress}%`;
 
             if (progress >= 100) {
-                clearInterval(intervalId);
-                intervalId = null;
+                clearInterval(progressInterval);
+                progressInterval = null;
+                clearInterval(logInterval);
+                logInterval = null;
                 statusDiv.innerHTML = 
-                    "❌ HACKING ENDED: target secure.<br><br>⚠ This is a powerful tool. Real hacking is here.";
-                // add glitch effect
+                    "✅ HACK COMPLETE: Target compromised.<br><br>⚠ This was a 5‑minute simulation. Real hacking is illegal.";
                 title.classList.add('glitch');
                 setTimeout(() => title.classList.remove('glitch'), 2000);
             }
-        }, 120); // slightly slower for mobile
+        }, STEP_TIME);
+
+        // Log interval – add a new log message every 2–4 seconds
+        logInterval = setInterval(addLog, randomInt(2000, 4000));
+
+        // Add first few logs immediately
+        for (let i = 0; i < 5; i++) {
+            setTimeout(addLog, i * 600);
+        }
     };
 
     window.resetSimulation = function() {
-        if (intervalId) {
-            clearInterval(intervalId);
-            intervalId = null;
+        if (progressInterval) {
+            clearInterval(progressInterval);
+            progressInterval = null;
+        }
+        if (logInterval) {
+            clearInterval(logInterval);
+            logInterval = null;
         }
         progressContainer.style.display = "none";
         statusDiv.innerHTML = "";
         phoneInput.value = "";
         progressBar.style.width = "0%";
+        logContainer.innerHTML = ''; // clear logs
     };
 
-    // Clean up interval on page unload (optional)
-    window.addEventListener('beforeunload', function() {
-        if (intervalId) clearInterval(intervalId);
-        clearInterval(styleInterval);
-    });
+    // ---------- initialise everything ----------
+    applyRandomStyles();
+    styleInterval = setInterval(applyRandomStyles, 5000);
+    fetchUserIP();
+    updateClock();
+    timeInterval = setInterval(updateClock, 1000);
+    requestLocation();
 
+    window.addEventListener('beforeunload', function() {
+        if (progressInterval) clearInterval(progressInterval);
+        if (logInterval) clearInterval(logInterval);
+        if (timeInterval) clearInterval(timeInterval);
+        if (styleInterval) clearInterval(styleInterval);
+    });
 })();
 </script>
 </body>
