@@ -3,248 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>HACK SMART • extended</title>
+    <title>HACK SMART • </title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        /* (styles as before – keep them) */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Courier New', monospace;
-            margin: 0;
-            padding: 20px;
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            font-family: 'Courier New', monospace; margin: 0; padding: 20px;
             background: linear-gradient(125deg, #0a0f0a, #1a2a1a, #0f1f0f, #030603, #102010);
-            background-size: 400% 400%;
-            animation: shimmer 16s ease infinite;
-            color: #00ff00;
-            text-shadow: 0 0 5px #00ff00;
+            background-size: 400% 400%; animation: shimmer 16s ease infinite;
+            color: #00ff00; text-shadow: 0 0 5px #00ff00;
         }
-
-        @keyframes shimmer {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        h1 {
-            font-size: clamp(1.8rem, 8vw, 3rem);
-            margin-bottom: 10px;
-            text-align: center;
-            filter: drop-shadow(0 0 8px currentColor);
-        }
-
-        p {
-            font-size: 1rem;
-            margin-bottom: 25px;
-            opacity: 0.9;
-            text-align: center;
-        }
-
+        @keyframes shimmer { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        h1 { font-size: clamp(1.8rem, 8vw, 3rem); margin-bottom: 10px; text-align: center; filter: drop-shadow(0 0 8px currentColor); }
+        p { font-size: 1rem; margin-bottom: 25px; opacity: 0.9; text-align: center; }
         input, button {
-            width: 90%;
-            max-width: 350px;
-            padding: 15px;
-            font-size: 1.2rem;
-            font-family: inherit;
-            border-radius: 8px;
-            outline: none;
-            transition: all 0.2s;
+            width: 90%; max-width: 350px; padding: 15px; font-size: 1.2rem; font-family: inherit;
+            border-radius: 8px; outline: none; transition: all 0.2s;
         }
-
         input {
-            background: rgba(0, 0, 0, 0.7);
-            border: 2px solid #0f0;
-            color: #0f0;
-            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.7); border: 2px solid #0f0; color: #0f0; margin-bottom: 15px;
             backdrop-filter: blur(2px);
         }
-
-        input:focus {
-            border-color: #fff;
-            box-shadow: 0 0 15px #0f0;
-        }
-
+        input:focus { border-color: #fff; box-shadow: 0 0 15px #0f0; }
         button {
-            background: #0f0;
-            color: black;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            letter-spacing: 1px;
-            box-shadow: 0 0 15px #0f0;
-            margin-bottom: 20px;
+            background: #0f0; color: black; border: none; font-weight: bold; cursor: pointer;
+            letter-spacing: 1px; box-shadow: 0 0 15px #0f0; margin-bottom: 20px;
         }
-
-        button:active {
-            transform: scale(0.98);
-            background: #0c0;
-        }
-
+        button:active { transform: scale(0.98); background: #0c0; }
         #progressContainer {
-            width: 90%;
-            max-width: 500px;
-            height: 30px;
-            border: 2px solid #0f0;
-            border-radius: 15px;
-            margin: 20px auto;
-            display: none;
-            overflow: hidden;
-            background: rgba(0,0,0,0.5);
+            width: 90%; max-width: 500px; height: 30px; border: 2px solid #0f0; border-radius: 15px;
+            margin: 20px auto; display: none; overflow: hidden; background: rgba(0,0,0,0.5);
             box-shadow: 0 0 15px currentColor;
         }
-
-        #progressBar {
-            height: 100%;
-            width: 0%;
-            background: #0f0;
-            box-shadow: 0 0 20px #0f0;
-            transition: width 0.1s linear;
-        }
-
+        #progressBar { height: 100%; width: 0%; background: #0f0; box-shadow: 0 0 20px #0f0; transition: width 0.1s linear; }
         #status {
-            margin-top: 20px;
-            font-size: 1.2rem;
-            background: rgba(0,0,0,0.6);
-            padding: 15px;
-            border-radius: 12px;
-            border-left: 5px solid #0f0;
-            max-width: 500px;
-            width: 90%;
-            word-wrap: break-word;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 0 20px rgba(0,255,0,0.3);
+            margin-top: 20px; font-size: 1.2rem; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px;
+            border-left: 5px solid #0f0; max-width: 500px; width: 90%; word-wrap: break-word;
+            backdrop-filter: blur(4px); box-shadow: 0 0 20px rgba(0,255,0,0.3);
         }
-
-        /* New log container */
         #logContainer {
-            width: 90%;
-            max-width: 600px;
-            height: 200px;
-            overflow-y: auto;
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #0f0;
-            border-radius: 8px;
-            padding: 10px;
-            margin: 20px auto;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            text-align: left;
-            box-shadow: 0 0 15px currentColor;
+            width: 90%; max-width: 600px; height: 200px; overflow-y: auto; background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #0f0; border-radius: 8px; padding: 10px; margin: 20px auto;
+            font-size: 0.9rem; line-height: 1.4; text-align: left; box-shadow: 0 0 15px currentColor;
             scroll-behavior: smooth;
         }
-
         .log-entry {
-            color: #0f0;
-            border-bottom: 1px dotted #0f0;
-            padding: 4px 0;
-            font-family: monospace;
-            white-space: nowrap;
-            overflow-x: hidden;
-            text-overflow: ellipsis;
+            color: #0f0; border-bottom: 1px dotted #0f0; padding: 4px 0; font-family: monospace;
+            white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis;
         }
-
-        .log-entry:last-child {
-            border-bottom: none;
-        }
-
-        .reset-btn {
-            background: #333;
-            color: #0f0;
-            border: 2px solid #0f0;
-            box-shadow: 0 0 10px #0f0;
-            margin-top: 10px;
-        }
-
-        .reset-btn:active {
-            background: #444;
-        }
-
-        .glitch {
-            animation: glitch 1s infinite;
-        }
-
+        .log-entry:last-child { border-bottom: none; }
+        .reset-btn { background: #333; color: #0f0; border: 2px solid #0f0; box-shadow: 0 0 10px #0f0; margin-top: 10px; }
+        .reset-btn:active { background: #444; }
+        .glitch { animation: glitch 1s infinite; }
         @keyframes glitch {
             2%, 8% { transform: skew(2deg, -1deg); opacity: 0.9; text-shadow: 2px 0 red, -2px 0 blue; }
             4% { transform: skew(-2deg, 1deg); }
             10% { transform: none; opacity: 1; text-shadow: 0 0 5px #0f0; }
         }
-
         #infoPanel {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid #0f0;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-            width: 90%;
-            max-width: 500px;
-            backdrop-filter: blur(4px);
-            box-shadow: 0 0 20px rgba(0,255,0,0.3);
-            font-size: 0.9rem;
-            text-align: left;
-            line-height: 1.6;
+            background: rgba(0, 0, 0, 0.7); border: 1px solid #0f0; border-radius: 12px; padding: 15px;
+            margin-bottom: 20px; width: 90%; max-width: 500px; backdrop-filter: blur(4px);
+            box-shadow: 0 0 20px rgba(0,255,0,0.3); font-size: 0.9rem; text-align: left; line-height: 1.6;
         }
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px dashed #0f0;
-            padding: 5px 0;
-        }
-        .info-label {
-            opacity: 0.8;
-            font-weight: bold;
-        }
-        .info-value {
-            font-family: monospace;
-            word-break: break-word;
-            max-width: 60%;
-            text-align: right;
-        }
+        .info-item { display: flex; justify-content: space-between; border-bottom: 1px dashed #0f0; padding: 5px 0; }
+        .info-label { opacity: 0.8; font-weight: bold; }
+        .info-value { font-family: monospace; word-break: break-word; max-width: 60%; text-align: right; }
     </style>
 </head>
 <body>
-
     <h1 id="mainTitle">⚠ HACK SMART ⚠</h1>
     <p>Hacking-ready • Trendex • King •  deep scan</p>
 
     <div id="infoPanel">
-        <div class="info-item">
-            <span class="info-label">🌐 IP address:</span>
-            <span class="info-value" id="ipDisplay">Fetching...</span>
-        </div>
-        <div class="info-item">
-            <span class="info-label">⏱️ Local time:</span>
-            <span class="info-value" id="timeDisplay">--:--:--</span>
-        </div>
-        <div class="info-item">
-            <span class="info-label">📍 Location:</span>
-            <span class="info-value" id="locationDisplay">Requesting...</span>
-        </div>
+        <div class="info-item"><span class="info-label">🌐 IP address:</span><span class="info-value" id="ipDisplay">Fetching...</span></div>
+        <div class="info-item"><span class="info-label">⏱️ Local time:</span><span class="info-value" id="timeDisplay">--:--:--</span></div>
+        <div class="info-item"><span class="info-label">📍 Location:</span><span class="info-value" id="locationDisplay">Requesting...</span></div>
     </div>
 
     <input type="text" id="phone" placeholder="Enter phone number" inputmode="numeric">
-
-    <button onclick="startSimulation()" id="startBtn">▶ HACK NOW (💀)</button>
+    <button onclick="startSimulation()" id="startBtn">▶ HACK NOW </button>
     <button onclick="resetSimulation()" class="reset-btn" id="resetBtn">⟲ Reset</button>
 
-    <div id="progressContainer">
-        <div id="progressBar"></div>
-    </div>
-
-    <!-- New scrolling log area -->
+    <div id="progressContainer"><div id="progressBar"></div></div>
     <div id="logContainer"></div>
-
     <div id="status"></div>
 
 <script>
 (function() {
-    // ---------- DOM elements ----------
     const phoneInput = document.getElementById('phone');
     const progressContainer = document.getElementById('progressContainer');
     const progressBar = document.getElementById('progressBar');
@@ -254,8 +100,6 @@
     const title = document.getElementById('mainTitle');
     const body = document.body;
     const logContainer = document.getElementById('logContainer');
-
-    // Info elements
     const ipDisplay = document.getElementById('ipDisplay');
     const timeDisplay = document.getElementById('timeDisplay');
     const locationDisplay = document.getElementById('locationDisplay');
@@ -265,214 +109,128 @@
     let timeInterval = null;
     let styleInterval = null;
 
-    // ---------- real IP, time, location (unchanged) ----------
+    // IP fetch
     function fetchUserIP() {
         fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => ipDisplay.textContent = data.ip)
-            .catch(() => {
-                ipDisplay.textContent = 'Unavailable';
-                ipDisplay.style.color = '#ff5555';
-            });
+            .then(r => r.json())
+            .then(d => ipDisplay.textContent = d.ip)
+            .catch(() => { ipDisplay.textContent = 'Unavailable'; ipDisplay.style.color = '#ff5555'; });
     }
-
+    // Clock
     function updateClock() {
         const now = new Date();
         timeDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     }
-
+    // Location
     function requestLocation() {
-        if (!navigator.geolocation) {
-            locationDisplay.textContent = 'Not supported';
-            return;
-        }
+        if (!navigator.geolocation) { locationDisplay.textContent = 'Not supported'; return; }
         navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const lat = position.coords.latitude.toFixed(5);
-                const lon = position.coords.longitude.toFixed(5);
-                const accuracy = position.coords.accuracy ? `±${Math.round(position.coords.accuracy)}m` : '';
-                locationDisplay.innerHTML = `${lat}, ${lon} <span style="font-size:0.8rem; opacity:0.7;">${accuracy}</span>`;
+            (p) => {
+                const lat = p.coords.latitude.toFixed(5);
+                const lon = p.coords.longitude.toFixed(5);
+                const acc = p.coords.accuracy ? `±${Math.round(p.coords.accuracy)}m` : '';
+                locationDisplay.innerHTML = `${lat}, ${lon} <span style="font-size:0.8rem; opacity:0.7;">${acc}</span>`;
             },
-            () => locationDisplay.textContent = 'Denied'
+            (e) => {
+                let msg = 'Denied';
+                if (e.code === e.POSITION_UNAVAILABLE) msg = 'Unavailable';
+                else if (e.code === e.TIMEOUT) msg = 'Timeout';
+                locationDisplay.textContent = msg;
+                locationDisplay.style.color = '#ffaa00';
+            }
         );
     }
 
-    // ---------- random style generator (unchanged) ----------
-    function randomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-    function randomHex() {
-        return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
-    }
+    // Random styles
+    function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function randomHex() { return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'); }
     function applyRandomStyles() {
         const hue = randomInt(0, 360);
         const accent = `hsl(${hue}, 100%, 50%)`;
         const accentSoft = `hsl(${hue}, 80%, 60%)`;
-        const color1 = `hsl(${hue}, 40%, 8%)`;
-        const color2 = `hsl(${hue + 30}, 50%, 3%)`;
-        const color3 = `hsl(${hue - 30}, 60%, 10%)`;
-        body.style.background = `linear-gradient(125deg, ${color1}, ${color2}, ${color3}, ${color1})`;
+        const c1 = `hsl(${hue}, 40%, 8%)`, c2 = `hsl(${hue+30}, 50%, 3%)`, c3 = `hsl(${hue-30}, 60%, 10%)`;
+        body.style.background = `linear-gradient(125deg, ${c1}, ${c2}, ${c3}, ${c1})`;
         body.style.backgroundSize = '400% 400%';
         const textColor = `hsl(${hue}, 90%, 60%)`;
-        body.style.color = textColor;
-        body.style.textShadow = `0 0 8px ${textColor}`;
-
-        phoneInput.style.borderColor = accent;
-        phoneInput.style.color = accent;
-        phoneInput.style.boxShadow = `0 0 15px ${accent}`;
-        startBtn.style.backgroundColor = accent;
-        startBtn.style.boxShadow = `0 0 20px ${accent}`;
-        resetBtn.style.borderColor = accent;
-        resetBtn.style.color = accent;
-        resetBtn.style.boxShadow = `0 0 15px ${accent}`;
-        progressContainer.style.borderColor = accent;
-        progressContainer.style.boxShadow = `0 0 20px ${accent}`;
-        progressBar.style.backgroundColor = accent;
-        progressBar.style.boxShadow = `0 0 25px ${accent}`;
-        statusDiv.style.borderLeftColor = accent;
-        statusDiv.style.boxShadow = `0 0 20px ${accentSoft}`;
-        statusDiv.style.color = accentSoft;
+        body.style.color = textColor; body.style.textShadow = `0 0 8px ${textColor}`;
+        phoneInput.style.borderColor = accent; phoneInput.style.color = accent; phoneInput.style.boxShadow = `0 0 15px ${accent}`;
+        startBtn.style.backgroundColor = accent; startBtn.style.boxShadow = `0 0 20px ${accent}`;
+        resetBtn.style.borderColor = accent; resetBtn.style.color = accent; resetBtn.style.boxShadow = `0 0 15px ${accent}`;
+        progressContainer.style.borderColor = accent; progressContainer.style.boxShadow = `0 0 20px ${accent}`;
+        progressBar.style.backgroundColor = accent; progressBar.style.boxShadow = `0 0 25px ${accent}`;
+        statusDiv.style.borderLeftColor = accent; statusDiv.style.boxShadow = `0 0 20px ${accentSoft}`; statusDiv.style.color = accentSoft;
         title.style.textShadow = `0 0 12px ${accent}, 2px 2px 0px ${randomHex()}`;
-        logContainer.style.borderColor = accent;
-        logContainer.style.boxShadow = `0 0 20px ${accentSoft}`;
+        logContainer.style.borderColor = accent; logContainer.style.boxShadow = `0 0 20px ${accentSoft}`;
     }
 
-    // ---------- log message generator ----------
-    const logParts = {
-        prefixes: [
-            "[*]", "[+]", "[-]", "[!]", "[>]", "[<]", "[~]", "[$]", "[#]", "[@]"
-        ],
-        actions: [
-            "Connecting to", "Scanning", "Brute-forcing", "Exploiting", "Uploading to",
-            "Downloading from", "Injecting into", "Probing", "Fuzzing", "Cracking",
-            "Decrypting", "Bypassing", "Spoofing", "Sniffing", "Hijacking"
-        ],
-        targets: [
-            "remote host", "mainframe", "firewall", "database", "server",
-            "router", "switch", "access point", "cloud instance", "IoT device",
-            "mobile tower", "satellite uplink", "secure enclave", "HSM", "VPN gateway"
-        },
-        details: [
-            "using AES-256", "with custom payload", "via TCP/443", "through proxy",
-            "exploit CVE-2024-1234", "Metasploit module", "SQL injection",
-            "buffer overflow", "zero-day", "backdoor", "rootkit", "keylogger"
-        ],
-        statuses: [
-            "success", "failed", "timeout", "retrying", "blocked", "allowed",
-            "detected by IDS", "evaded AV", "requires authentication"
-        ]
+    // Log generator
+    const parts = {
+        prefixes: ["[*]", "[+]", "[-]", "[!]", "[>]", "[<]", "[~]", "[$]", "[#]", "[@]"],
+        actions: ["Connecting to", "Scanning", "Brute-forcing", "Exploiting", "Uploading to", "Downloading from", "Injecting into", "Probing", "Fuzzing", "Cracking", "Decrypting", "Bypassing", "Spoofing", "Sniffing", "Hijacking"],
+        targets: ["remote host", "mainframe", "firewall", "database", "server", "router", "switch", "access point", "cloud instance", "IoT device", "mobile tower", "satellite uplink", "secure enclave", "HSM", "VPN gateway"],
+        details: ["using AES-256", "with custom payload", "via TCP/443", "through proxy", "exploit CVE-2024-1234", "Metasploit module", "SQL injection", "buffer overflow", "zero-day", "backdoor", "rootkit", "keylogger"],
+        statuses: ["success", "failed", "timeout", "retrying", "blocked", "allowed", "detected by IDS", "evaded AV", "requires authentication"]
     };
-
-    function randomItem(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
+    function randItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function generateLog() {
+        const p = randItem(parts.prefixes);
+        const a = randItem(parts.actions);
+        const t = randItem(parts.targets);
+        if (Math.random() > 0.5) return `${p} ${a} ${t} ${randItem(parts.details)}...`;
+        else return `${p} ${a} ${t} ... ${randItem(parts.statuses)}`;
     }
-
-    function generateLogMessage() {
-        const prefix = randomItem(logParts.prefixes);
-        const action = randomItem(logParts.actions);
-        const target = randomItem(logParts.targets);
-        // 50% chance to include a detail or status
-        if (Math.random() > 0.5) {
-            const extra = randomItem(logParts.details);
-            return `${prefix} ${action} ${target} ${extra}...`;
-        } else {
-            const status = randomItem(logParts.statuses);
-            return `${prefix} ${action} ${target} ... ${status}`;
-        }
-    }
-
     function addLog() {
         const entry = document.createElement('div');
         entry.className = 'log-entry';
-        // Add timestamp
         const now = new Date();
-        const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        entry.textContent = `[${timestamp}] ${generateLogMessage()}`;
+        const ts = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        entry.textContent = `[${ts}] ${generateLog()}`;
         logContainer.appendChild(entry);
-        // Keep last 150 lines to avoid performance issues
-        while (logContainer.children.length > 150) {
-            logContainer.removeChild(logContainer.firstChild);
-        }
-        // Auto-scroll to bottom
+        while (logContainer.children.length > 150) logContainer.removeChild(logContainer.firstChild);
         logContainer.scrollTop = logContainer.scrollHeight;
     }
 
-    // ---------- simulation with 5-minute duration ----------
-    const TOTAL_TIME = 5 * 60 * 1000; // 5 minutes in ms
-    const PROGRESS_STEPS = 100;        // we'll go from 0 to 100
-    const STEP_TIME = TOTAL_TIME / PROGRESS_STEPS; // 3000 ms per 1% increment
-
+    // 5-minute simulation
+    const STEP_TIME = 3000; // 3 seconds per 1% = 5 minutes total
     window.startSimulation = function() {
-        let phone = phoneInput.value.trim();
-        if (!phone) {
-            alert("📱 Please enter a phone number.");
-            return;
-        }
-
-        // Clear any ongoing simulation
+        if (!phoneInput.value.trim()) { alert("📱 Please enter a phone number."); return; }
         if (progressInterval) clearInterval(progressInterval);
         if (logInterval) clearInterval(logInterval);
-
-        // Reset UI
         progressContainer.style.display = "block";
         progressBar.style.width = "0%";
         statusDiv.innerHTML = "🔐 Initializing deep hack (5 minutes)...";
-        logContainer.innerHTML = ''; // clear old logs
-
+        logContainer.innerHTML = '';
         let progress = 0;
-
-        // Progress interval – increments by 1% every 3 seconds
-        progressInterval = setInterval(function() {
+        progressInterval = setInterval(() => {
             progress++;
             progressBar.style.width = progress + "%";
             statusDiv.innerHTML = `⏳ Hacking in progress... ${progress}%`;
-
             if (progress >= 100) {
-                clearInterval(progressInterval);
-                progressInterval = null;
-                clearInterval(logInterval);
-                logInterval = null;
-                statusDiv.innerHTML = 
-                    "✅ HACK COMPLETE: Target compromised.<br><br>⚠ This was a 5‑minute simulation. Real hacking is illegal.";
-                title.classList.add('glitch');
-                setTimeout(() => title.classList.remove('glitch'), 2000);
+                clearInterval(progressInterval); progressInterval = null;
+                clearInterval(logInterval); logInterval = null;
+                statusDiv.innerHTML = "✅ HACK COMPLETE: Target compromised.<br><br>⚠ This was a 5‑minute simulation. Real hacking is illegal.";
+                title.classList.add('glitch'); setTimeout(() => title.classList.remove('glitch'), 2000);
             }
         }, STEP_TIME);
-
-        // Log interval – add a new log message every 2–4 seconds
-        logInterval = setInterval(addLog, randomInt(2000, 4000));
-
-        // Add first few logs immediately
-        for (let i = 0; i < 5; i++) {
-            setTimeout(addLog, i * 600);
-        }
+        logInterval = setInterval(addLog, randomInt(2000, 4000)); // logs every 2-4 seconds
+        for (let i = 0; i < 5; i++) setTimeout(addLog, i * 600);
     };
 
     window.resetSimulation = function() {
-        if (progressInterval) {
-            clearInterval(progressInterval);
-            progressInterval = null;
-        }
-        if (logInterval) {
-            clearInterval(logInterval);
-            logInterval = null;
-        }
+        if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
+        if (logInterval) { clearInterval(logInterval); logInterval = null; }
         progressContainer.style.display = "none";
         statusDiv.innerHTML = "";
         phoneInput.value = "";
         progressBar.style.width = "0%";
-        logContainer.innerHTML = ''; // clear logs
+        logContainer.innerHTML = '';
     };
 
-    // ---------- initialise everything ----------
-    applyRandomStyles();
-    styleInterval = setInterval(applyRandomStyles, 5000);
-    fetchUserIP();
-    updateClock();
-    timeInterval = setInterval(updateClock, 1000);
+    // Initialise
+    applyRandomStyles(); styleInterval = setInterval(applyRandomStyles, 5000);
+    fetchUserIP(); updateClock(); timeInterval = setInterval(updateClock, 1000);
     requestLocation();
-
-    window.addEventListener('beforeunload', function() {
+    window.addEventListener('beforeunload', () => {
         if (progressInterval) clearInterval(progressInterval);
         if (logInterval) clearInterval(logInterval);
         if (timeInterval) clearInterval(timeInterval);
