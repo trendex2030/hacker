@@ -1,242 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>HACK SMART • </title>
-    <style>
-        /* (styles as before – keep them) */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            font-family: 'Courier New', monospace; margin: 0; padding: 20px;
-            background: linear-gradient(125deg, #0a0f0a, #1a2a1a, #0f1f0f, #030603, #102010);
-            background-size: 400% 400%; animation: shimmer 16s ease infinite;
-            color: #00ff00; text-shadow: 0 0 5px #00ff00;
-        }
-        @keyframes shimmer { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        h1 { font-size: clamp(1.8rem, 8vw, 3rem); margin-bottom: 10px; text-align: center; filter: drop-shadow(0 0 8px currentColor); }
-        p { font-size: 1rem; margin-bottom: 25px; opacity: 0.9; text-align: center; }
-        input, button {
-            width: 90%; max-width: 350px; padding: 15px; font-size: 1.2rem; font-family: inherit;
-            border-radius: 8px; outline: none; transition: all 0.2s;
-        }
-        input {
-            background: rgba(0, 0, 0, 0.7); border: 2px solid #0f0; color: #0f0; margin-bottom: 15px;
-            backdrop-filter: blur(2px);
-        }
-        input:focus { border-color: #fff; box-shadow: 0 0 15px #0f0; }
-        button {
-            background: #0f0; color: black; border: none; font-weight: bold; cursor: pointer;
-            letter-spacing: 1px; box-shadow: 0 0 15px #0f0; margin-bottom: 20px;
-        }
-        button:active { transform: scale(0.98); background: #0c0; }
-        #progressContainer {
-            width: 90%; max-width: 500px; height: 30px; border: 2px solid #0f0; border-radius: 15px;
-            margin: 20px auto; display: none; overflow: hidden; background: rgba(0,0,0,0.5);
-            box-shadow: 0 0 15px currentColor;
-        }
-        #progressBar { height: 100%; width: 0%; background: #0f0; box-shadow: 0 0 20px #0f0; transition: width 0.1s linear; }
-        #status {
-            margin-top: 20px; font-size: 1.2rem; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px;
-            border-left: 5px solid #0f0; max-width: 500px; width: 90%; word-wrap: break-word;
-            backdrop-filter: blur(4px); box-shadow: 0 0 20px rgba(0,255,0,0.3);
-        }
-        #logContainer {
-            width: 90%; max-width: 600px; height: 200px; overflow-y: auto; background: rgba(0, 0, 0, 0.8);
-            border: 1px solid #0f0; border-radius: 8px; padding: 10px; margin: 20px auto;
-            font-size: 0.9rem; line-height: 1.4; text-align: left; box-shadow: 0 0 15px currentColor;
-            scroll-behavior: smooth;
-        }
-        .log-entry {
-            color: #0f0; border-bottom: 1px dotted #0f0; padding: 4px 0; font-family: monospace;
-            white-space: nowrap; overflow-x: hidden; text-overflow: ellipsis;
-        }
-        .log-entry:last-child { border-bottom: none; }
-        .reset-btn { background: #333; color: #0f0; border: 2px solid #0f0; box-shadow: 0 0 10px #0f0; margin-top: 10px; }
-        .reset-btn:active { background: #444; }
-        .glitch { animation: glitch 1s infinite; }
-        @keyframes glitch {
-            2%, 8% { transform: skew(2deg, -1deg); opacity: 0.9; text-shadow: 2px 0 red, -2px 0 blue; }
-            4% { transform: skew(-2deg, 1deg); }
-            10% { transform: none; opacity: 1; text-shadow: 0 0 5px #0f0; }
-        }
-        #infoPanel {
-            background: rgba(0, 0, 0, 0.7); border: 1px solid #0f0; border-radius: 12px; padding: 15px;
-            margin-bottom: 20px; width: 90%; max-width: 500px; backdrop-filter: blur(4px);
-            box-shadow: 0 0 20px rgba(0,255,0,0.3); font-size: 0.9rem; text-align: left; line-height: 1.6;
-        }
-        .info-item { display: flex; justify-content: space-between; border-bottom: 1px dashed #0f0; padding: 5px 0; }
-        .info-label { opacity: 0.8; font-weight: bold; }
-        .info-value { font-family: monospace; word-break: break-word; max-width: 60%; text-align: right; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OFFICE-PRO APP</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #007BFF; /* Blue background */
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }.logo {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.contact {
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 80%;
+  max-width: 300px;
+}
+
+button {
+  padding: 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: white;
+  color: #007BFF;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #e6e6e6;
+}
+
+@media (min-width: 768px) {
+  .buttons {
+    width: 300px;
+  }
+}
+
+  </style>
 </head>
-<body>
-    <h1 id="mainTitle">⚠ HACK SMART ⚠</h1>
-    <p>Hacking-ready • Trendex • King •  deep scan</p>
-
-    <div id="infoPanel">
-        <div class="info-item"><span class="info-label">🌐 IP address:</span><span class="info-value" id="ipDisplay">Fetching...</span></div>
-        <div class="info-item"><span class="info-label">⏱️ Local time:</span><span class="info-value" id="timeDisplay">--:--:--</span></div>
-        <div class="info-item"><span class="info-label">📍 Location:</span><span class="info-value" id="locationDisplay">Requesting...</span></div>
-    </div>
-
-    <input type="text" id="phone" placeholder="Enter phone number" inputmode="numeric">
-    <button onclick="startSimulation()" id="startBtn">▶ HACK NOW </button>
-    <button onclick="resetSimulation()" class="reset-btn" id="resetBtn">⟲ Reset</button>
-
-    <div id="progressContainer"><div id="progressBar"></div></div>
-    <div id="logContainer"></div>
-    <div id="status"></div>
-
-<script>
-(function() {
-    const phoneInput = document.getElementById('phone');
-    const progressContainer = document.getElementById('progressContainer');
-    const progressBar = document.getElementById('progressBar');
-    const statusDiv = document.getElementById('status');
-    const startBtn = document.getElementById('startBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const title = document.getElementById('mainTitle');
-    const body = document.body;
-    const logContainer = document.getElementById('logContainer');
-    const ipDisplay = document.getElementById('ipDisplay');
-    const timeDisplay = document.getElementById('timeDisplay');
-    const locationDisplay = document.getElementById('locationDisplay');
-
-    let progressInterval = null;
-    let logInterval = null;
-    let timeInterval = null;
-    let styleInterval = null;
-
-    // IP fetch
-    function fetchUserIP() {
-        fetch('https://api.ipify.org?format=json')
-            .then(r => r.json())
-            .then(d => ipDisplay.textContent = d.ip)
-            .catch(() => { ipDisplay.textContent = 'Unavailable'; ipDisplay.style.color = '#ff5555'; });
+<body>  <div class="logo">OFFICE-PRO APP</div>
+  <div class="contact">Contact Admin: +255750812993</div>  <div class="buttons">
+    <button onclick="comingSoon()">Download APK</button>
+    <button onclick="comingSoon()">Download Admin APK</button>
+  </div>  <script>
+    function comingSoon() {
+      alert("Coming Soon");
     }
-    // Clock
-    function updateClock() {
-        const now = new Date();
-        timeDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    }
-    // Location
-    function requestLocation() {
-        if (!navigator.geolocation) { locationDisplay.textContent = 'Not supported'; return; }
-        navigator.geolocation.getCurrentPosition(
-            (p) => {
-                const lat = p.coords.latitude.toFixed(5);
-                const lon = p.coords.longitude.toFixed(5);
-                const acc = p.coords.accuracy ? `±${Math.round(p.coords.accuracy)}m` : '';
-                locationDisplay.innerHTML = `${lat}, ${lon} <span style="font-size:0.8rem; opacity:0.7;">${acc}</span>`;
-            },
-            (e) => {
-                let msg = 'Denied';
-                if (e.code === e.POSITION_UNAVAILABLE) msg = 'Unavailable';
-                else if (e.code === e.TIMEOUT) msg = 'Timeout';
-                locationDisplay.textContent = msg;
-                locationDisplay.style.color = '#ffaa00';
-            }
-        );
-    }
-
-    // Random styles
-    function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-    function randomHex() { return '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'); }
-    function applyRandomStyles() {
-        const hue = randomInt(0, 360);
-        const accent = `hsl(${hue}, 100%, 50%)`;
-        const accentSoft = `hsl(${hue}, 80%, 60%)`;
-        const c1 = `hsl(${hue}, 40%, 8%)`, c2 = `hsl(${hue+30}, 50%, 3%)`, c3 = `hsl(${hue-30}, 60%, 10%)`;
-        body.style.background = `linear-gradient(125deg, ${c1}, ${c2}, ${c3}, ${c1})`;
-        body.style.backgroundSize = '400% 400%';
-        const textColor = `hsl(${hue}, 90%, 60%)`;
-        body.style.color = textColor; body.style.textShadow = `0 0 8px ${textColor}`;
-        phoneInput.style.borderColor = accent; phoneInput.style.color = accent; phoneInput.style.boxShadow = `0 0 15px ${accent}`;
-        startBtn.style.backgroundColor = accent; startBtn.style.boxShadow = `0 0 20px ${accent}`;
-        resetBtn.style.borderColor = accent; resetBtn.style.color = accent; resetBtn.style.boxShadow = `0 0 15px ${accent}`;
-        progressContainer.style.borderColor = accent; progressContainer.style.boxShadow = `0 0 20px ${accent}`;
-        progressBar.style.backgroundColor = accent; progressBar.style.boxShadow = `0 0 25px ${accent}`;
-        statusDiv.style.borderLeftColor = accent; statusDiv.style.boxShadow = `0 0 20px ${accentSoft}`; statusDiv.style.color = accentSoft;
-        title.style.textShadow = `0 0 12px ${accent}, 2px 2px 0px ${randomHex()}`;
-        logContainer.style.borderColor = accent; logContainer.style.boxShadow = `0 0 20px ${accentSoft}`;
-    }
-
-    // Log generator
-    const parts = {
-        prefixes: ["[*]", "[+]", "[-]", "[!]", "[>]", "[<]", "[~]", "[$]", "[#]", "[@]"],
-        actions: ["Connecting to", "Scanning", "Brute-forcing", "Exploiting", "Uploading to", "Downloading from", "Injecting into", "Probing", "Fuzzing", "Cracking", "Decrypting", "Bypassing", "Spoofing", "Sniffing", "Hijacking"],
-        targets: ["remote host", "mainframe", "firewall", "database", "server", "router", "switch", "access point", "cloud instance", "IoT device", "mobile tower", "satellite uplink", "secure enclave", "HSM", "VPN gateway"],
-        details: ["using AES-256", "with custom payload", "via TCP/443", "through proxy", "exploit CVE-2024-1234", "Metasploit module", "SQL injection", "buffer overflow", "zero-day", "backdoor", "rootkit", "keylogger"],
-        statuses: ["success", "failed", "timeout", "retrying", "blocked", "allowed", "detected by IDS", "evaded AV", "requires authentication"]
-    };
-    function randItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-    function generateLog() {
-        const p = randItem(parts.prefixes);
-        const a = randItem(parts.actions);
-        const t = randItem(parts.targets);
-        if (Math.random() > 0.5) return `${p} ${a} ${t} ${randItem(parts.details)}...`;
-        else return `${p} ${a} ${t} ... ${randItem(parts.statuses)}`;
-    }
-    function addLog() {
-        const entry = document.createElement('div');
-        entry.className = 'log-entry';
-        const now = new Date();
-        const ts = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-        entry.textContent = `[${ts}] ${generateLog()}`;
-        logContainer.appendChild(entry);
-        while (logContainer.children.length > 150) logContainer.removeChild(logContainer.firstChild);
-        logContainer.scrollTop = logContainer.scrollHeight;
-    }
-
-    // 5-minute simulation
-    const STEP_TIME = 3000; // 3 seconds per 1% = 5 minutes total
-    window.startSimulation = function() {
-        if (!phoneInput.value.trim()) { alert("📱 Please enter a phone number."); return; }
-        if (progressInterval) clearInterval(progressInterval);
-        if (logInterval) clearInterval(logInterval);
-        progressContainer.style.display = "block";
-        progressBar.style.width = "0%";
-        statusDiv.innerHTML = "🔐 Initializing deep hack (5 minutes)...";
-        logContainer.innerHTML = '';
-        let progress = 0;
-        progressInterval = setInterval(() => {
-            progress++;
-            progressBar.style.width = progress + "%";
-            statusDiv.innerHTML = `⏳ Hacking in progress... ${progress}%`;
-            if (progress >= 100) {
-                clearInterval(progressInterval); progressInterval = null;
-                clearInterval(logInterval); logInterval = null;
-                statusDiv.innerHTML = "✅ HACK COMPLETE: Target compromised.<br><br>⚠ This was a 5‑minute simulation. Real hacking is illegal.";
-                title.classList.add('glitch'); setTimeout(() => title.classList.remove('glitch'), 2000);
-            }
-        }, STEP_TIME);
-        logInterval = setInterval(addLog, randomInt(2000, 4000)); // logs every 2-4 seconds
-        for (let i = 0; i < 5; i++) setTimeout(addLog, i * 600);
-    };
-
-    window.resetSimulation = function() {
-        if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
-        if (logInterval) { clearInterval(logInterval); logInterval = null; }
-        progressContainer.style.display = "none";
-        statusDiv.innerHTML = "";
-        phoneInput.value = "";
-        progressBar.style.width = "0%";
-        logContainer.innerHTML = '';
-    };
-
-    // Initialise
-    applyRandomStyles(); styleInterval = setInterval(applyRandomStyles, 5000);
-    fetchUserIP(); updateClock(); timeInterval = setInterval(updateClock, 1000);
-    requestLocation();
-    window.addEventListener('beforeunload', () => {
-        if (progressInterval) clearInterval(progressInterval);
-        if (logInterval) clearInterval(logInterval);
-        if (timeInterval) clearInterval(timeInterval);
-        if (styleInterval) clearInterval(styleInterval);
-    });
-})();
-</script>
-</body>
+  </script></body>
 </html>
