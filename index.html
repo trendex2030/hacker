@@ -94,7 +94,7 @@ async function checkIMEI() {
 
     try {
         // Replace with your API key if needed
-        const response = await fetch(`https://api.bk9.dev/tools/imei?imei=${imei}`);
+        const response = await fetch(`https://imeicheck.net/imei?imei=${imei}`);
         const data = await response.json();
 
         if (data.status && data.result) {
