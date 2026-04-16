@@ -1,119 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IMEI Device Identifier</title>
-
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0a1f44, #003366);
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OFFICE-PRO APP</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #007BFF; /* Blue background */
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }.logo {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-.container {
-    width: 90%;
-    max-width: 420px;
-    text-align: center;
-    background: rgba(255,255,255,0.05);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+.contact {
+  font-size: 14px;
+  margin-bottom: 30px;
 }
 
-h1 {
-    margin-bottom: 10px;
-}
-
-input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    margin-top: 15px;
-    font-size: 16px;
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 80%;
+  max-width: 300px;
 }
 
 button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 15px;
-    border-radius: 8px;
-    border: none;
-    background: #00aaff;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+  padding: 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: white;
+  color: #007BFF;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
 button:hover {
-    background: #008ecc;
+  background-color: #e6e6e6;
 }
 
-#result {
-    margin-top: 20px;
-    text-align: left;
-    font-size: 15px;
+@media (min-width: 768px) {
+  .buttons {
+    width: 300px;
+  }
 }
 
-.loading {
-    text-align: center;
-}
-</style>
+  </style>
 </head>
-<body>
-
-<div class="container">
-    <h1>IMEI Checker</h1>
-    <p>Enter your phone IMEI number</p>
-
-    <input type="text" id="imei" placeholder="15-digit IMEI">
-    <button onclick="checkIMEI()">Identify Device</button>
-
-    <div id="result"></div>
-</div>
-
-<script>
-async function checkIMEI() {
-    const imei = document.getElementById("imei").value.trim();
-    const result = document.getElementById("result");
-
-    // Validation
-    if (!/^[0-9]{15}$/.test(imei)) {
-        result.innerHTML = "❌ Please enter a valid 15-digit IMEI.";
-        return;
+<body>  <div class="logo">OFFICE-PRO APP</div>
+  <div class="contact">Contact Admin: +255750812993</div>  <div class="buttons">
+    <button onclick="comingSoon()">Download APK</button>
+    <button onclick="comingSoon()">Download Admin APK</button>
+  </div>  <script>
+    function comingSoon() {
+      alert("Coming Soon");
     }
-
-    result.innerHTML = "<div class='loading'>⏳ Checking device...</div>";
-
-    try {
-        // Replace with your API key if needed
-        const response = await fetch(`https://imeicheck.net/imei?imei=${imei}`);
-        const data = await response.json();
-
-        if (data.status && data.result) {
-            result.innerHTML = `
-                ✅ <b>Device Found</b><br><br>
-                📱 <b>Brand:</b> ${data.result.brand || 'N/A'}<br>
-                📲 <b>Model:</b> ${data.result.model || 'N/A'}<br>
-                🌍 <b>Country:</b> ${data.result.country || 'N/A'}<br>
-                🔧 <b>Type:</b> ${data.result.type || 'N/A'}
-            `;
-        } else {
-            result.innerHTML = "❌ No data found for this IMEI.";
-        }
-
-    } catch (err) {
-        result.innerHTML = "❌ Failed to fetch data. Try again later.";
-    }
-}
-</script>
-
-</body>
-</html>
+  </script></body>
+</html>  
